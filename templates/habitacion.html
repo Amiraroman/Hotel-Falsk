@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Habitaciones{% endblock %} 
+
+{% block content %}
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Habitaciones</h5>
+
+            <!-- Botón para abrir modal de agregar habitación -->
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarHabitacion">Agregar Habitación</button>
+
+            <!-- Tabla -->
+            <table class="table table-bordered table-striped table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Número de Habitación</th>
+                        <th scope="col">Tipo de Habitación</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for habitacion in habitaciones %}
+                        <tr>
+                            <td>{{ habitacion.idhabitacion }}</td>
+                            <td>{{ habitacion.numero_habitacion }}</td>
+                            <td>{{ habitacion.tipo_habitacion }}</td>
+                            <td>{{ habitacion.precio }}</td>
+                            <td> 
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarHabitacion('{{habitacion.idhabitacion}}', '{{ habitacion.numero_habitacion }}', '{{ habitacion.tipo_habitacion }}', '{{ habitacion.precio }}')">Editar</button>
+                                <a href="{{ url_for('eliminar_habitacion', id_habitacion=habitacion.idhabitacion) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar habitación -->
+<div class="modal fade" id="modalAgregarHabitacion" tabindex="-1" aria-labelledby="modalAgregarHabitacionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarHabitacionLabel">Agregar Habitación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/habitacion/agregar" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="numero_habitacion" class="form-label">Número de la Habitación</label>
+                        <input type="text" class="form-control" id="numero_habitacion" name="numero_habitacion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tipo_habitacion" class="form-label">Tipo de Habitación</label>
+                        <input type="text" class="form-control" id="tipo_habitacion" name="tipo_habitacion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="precio" class="form-label">Precio de la Habitación</label>
+                        <input type="text" class="form-control" id="precio" name="precio">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal para agregar habitación -->
+
+<!-- Modal para editar habitación -->
+<div class="modal fade" id="modalEditarHabitacion" tabindex="-1" aria-labelledby="modalEditarHabitacionLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarHabitacionLabel">Editar Habitación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editarHabitacionForm" action="/habitacion/editar/" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdHabitacion" name="idhabitacion">
+                    <div class="mb-3">
+                        <label for="editarNumeroHabitacion" class="form-label">Número de la Habitación</label>
+                        <input type="text" class="form-control" id="editarNumeroHabitacion" name="numero_habitacion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarTipoHabitacion" class="form-label">Tipo de Habitación</label>
+                        <input type="text" class="form-control" id="editarTipoHabitacion" name="tipo_habitacion">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarPrecio" class="form-label">Precio</label>
+                        <input type="text" class="form-control" id="editarPrecio" name="precio">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal para editar habitación -->
+
+{% endblock content %}
+
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/scriptHabitacion.js') }}"></script>
+
+{% endblock javascripts %}
+
+
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <h5 class="card-title">Clientes</h5>
+
+            <!-- Botón para abrir modal de agregar cliente -->
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">Agregar Cliente</button>
+
+            <!-- Tabla -->
+            <table class="table table-bordered table-striped table-hover" id="dataTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Número de Pasaporte</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                        <tr>
+                            <td>{{ cliente.idcliente }}</td>
+                            <td>{{ cliente.nombre }}</td>
+                            <td>{{ cliente.apellido }}</td>
+                            <td>{{ cliente.direccion }}</td>
+                            <td>{{ cliente.num_pasaporte }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="editarCliente('{{ cliente.idcliente }}', '{{ cliente.nombre }}', '{{ cliente.apellido }}', '{{ cliente.direccion }}', '{{ cliente.num_pasaporte }}')">Editar</button>
+                                <a href="{{ url_for('eliminar_cliente', id_cliente=cliente.idcliente) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar cliente -->
+<div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAgregarClienteLabel">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/cliente/agregar" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="num_pasaporte" class="form-label">Número de Pasaporte</label>
+                        <input type="text" class="form-control" id="num_pasaporte" name="num_pasaporte" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal para agregar cliente -->
+
+<!-- Modal para editar cliente -->
+<div class="modal fade" id="modalEditarCliente" tabindex="-1" aria-labelledby="modalEditarClienteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarClienteLabel">Editar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editarClienteForm" action="/cliente/editar/" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" id="editarIdCliente" name="idcliente">
+                    <div class="mb-3">
+                        <label for="editarNombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editarNombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarApellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="editarApellido" name="apellido" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarDireccion" class="form-label">Dirección</label>
+                        <input type="text" class="form-control" id="editarDireccion" name="direccion" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editarNumPasaporte" class="form-label">Número de Pasaporte</label>
+                        <input type="text" class="form-control" id="editarNumPasaporte" name="num_pasaporte" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Fin Modal para editar cliente -->
+
+{% endblock content %}
+
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/scriptCliente.js') }}"></script>
+{% endblock javascripts %}

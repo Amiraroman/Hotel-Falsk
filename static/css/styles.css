@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('../images/hotel.jpg');
+    background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    margin: 0;
+}
+
+.content {
+    flex: 1;
+}
+
+.subcontenido {
+    color: white;
+}
+
+.subcontenido h1 {
+    font-size: 3em; /* Tamaño grande para el título */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.btn-explorar {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5em; /* Tamaño grande para el botón */
+    border: 2px solid white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-explorar:hover {
+    background-color: white;
+    color: black;
+}
